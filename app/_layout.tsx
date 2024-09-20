@@ -1,37 +1,46 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { Drawer } from 'expo-router/drawer';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+export default function Layout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+   
+    <GestureHandlerRootView style={{ flex: 1 }}>
+       <Drawer>
+         <Drawer.Screen
+          name="index"
+          options={{
+            drawerLabel: 'Início', // Nome mostrado no menu do Drawer
+            title: 'Bem Vindo', // Título da página
+            drawerIcon: () => <Ionicons name="home-outline" size={18} color="#3A98FF" /> 
+          }}
+        />
+        <Drawer.Screen
+          name="primeiro"
+          options={{
+            drawerLabel: 'Primeiro Componente', // Nome mostrado no menu do Drawer
+            title: 'Primeiro Componente', // Título da página
+            drawerIcon: () => <Ionicons name="heart-circle-outline" size={18} color="#3A98FF" /> 
+          }}
+        />
+        <Drawer.Screen
+          name="contador"
+          options={{
+            drawerLabel: 'Tela Contador', // Nome mostrado no menu do Drawer
+            title: 'Tela Contador', // Título da páginar
+            drawerIcon: () => <Ionicons name="add" size={18} color="#3A98FF" /> 
+          }}
+        />  
+        <Drawer.Screen
+          name="tabs"
+          options={{
+            drawerLabel: 'Tabs', // Nome mostrado no menu do Drawer
+            title: 'Tabs', // Título da páginar
+            drawerIcon: () => <Ionicons name="albums-outline" size={18} color="#3A98FF" />
+          }}
+        />  
+      </Drawer>
+    </GestureHandlerRootView>
   );
 }
